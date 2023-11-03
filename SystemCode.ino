@@ -3,7 +3,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <WiFiClientSecure.h>
-#include "SystemConfig.h"
+#include "SystemLogic.h"
 
 // Pin definitions
 const int DHT_PIN = 0;
