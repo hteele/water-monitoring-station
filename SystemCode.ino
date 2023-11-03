@@ -36,7 +36,7 @@ const int SERVO_OPEN_ANGLE = 160;
 const int SERVO_CLOSE_ANGLE = 0;
 
 const unsigned long SERVO_OPEN_TIME = 1500;
-const unsigned long SERVO_CLOSE_TIME = 5000;  // CHANGE INTEGER FOR HOURS CLOSED e.g. 3600000UL*5 = 5 hours
+const unsigned long SERVO_CLOSE_TIME = 3600000UL * 4;  // CHANGE INTEGER FOR HOURS CLOSED e.g. 3600000UL*5 = 5 hours
 
 const int DATA_POINTS = 20;
 const int AVG_DELAY = 20;
