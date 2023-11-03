@@ -1,5 +1,5 @@
-#ifndef SystemConfig_h
-#define SystemConfig_h
+#ifndef SystemLogic_h
+#define SystemLogic_h
 
 static const char *root_ca PROGMEM = R"EOF(
 -----BEGIN CERTIFICATE-----
