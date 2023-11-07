@@ -80,8 +80,11 @@ WiFiClientSecure espClient;
 PubSubClient client(espClient);
 DHT dht(DHT_PIN, DHT11);
 Servo myservo;  // create servo object to control a servo
-Servo mysol;
 
+/////////////////////////////////////////////////////////////////////
+////////// ALL WIFI/MQTT ESTABLISHMENT FUNCTIONS BELOW //////////////
+
+//Various MQTT cases 
 String get_wifi_status(int status){
     switch(status){
         case WL_IDLE_STATUS:
@@ -137,6 +140,7 @@ void reconnect() {
   }
 }
 
+//Loop client functionality
 void mqtt_loop(){
    if (!client.connected()) {
    reconnect();
@@ -144,10 +148,10 @@ void mqtt_loop(){
   client.loop();
   }
 
+//Establish Stevens WiFi connections
 void wifi_start(){
    Serial.begin(115200);
   // Network settings
-  
   Serial.print("ESP Board MAC Address:  ");
   Serial.println(WiFi.macAddress());
   
@@ -170,13 +174,13 @@ void wifi_start(){
   Serial.println(WiFi.localIP());
 }
 
+//Enable PWM, servo is attached in .ino
 void enable_sensors(){
   //Enabling the PWM function on ESP32
   ESP32PWM::allocateTimer(0);
   ESP32PWM::allocateTimer(1);
   ESP32PWM::allocateTimer(2);
   myservo.setPeriodHertz(50);    // standard 50 hz servo
-  mysol.setPeriodHertz(50);    // standard 50 hz servo
   //myservo.attach(SERVO_PIN, 1000, 2000); // attaches the servo on pin 18 to the servo object
   // using default min/max of 1000us and 2000us
   // different servos may require different min/max settings
@@ -186,11 +190,15 @@ void enable_sensors(){
   dht.begin();
  }
 
+//Begin MQTT callback and certification
 void mqtt_start(){
   espClient.setCACert(root_ca);      // enable this line and the the "certificate" code for secure connection
   client.setServer(MQTT_SERVER, MQTT_PORT);
   client.setCallback(callback);
  }
+
+///////////////////////////////////////////////////////////////////
+////////// BELOW ARE ALL DATA-NORMALIZING FUNCTIONS ///////////////
 
 int photocellAvg(int numPoints, int delayPhoto){
   int photoTotal = 0;
