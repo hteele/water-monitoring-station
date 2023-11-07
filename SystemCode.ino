@@ -5,6 +5,9 @@
 #include <WiFiClientSecure.h>
 #include "SystemLogic.h"
 
+//////////////////////////////////////////////////////////////////////////////
+/// ALL VALUES BELOW SHOULD BE CHANGED IN ACCORDANCE TO TEAM'S PARAMETERS ///
+
 // Pin definitions
 const int DHT_PIN = 0;
 const int PHOTOCELL_PIN = A0;
@@ -28,7 +31,8 @@ const String SECTION = "OI";
 const String STATION_NUMBER = "5";
 String PAYLOAD;
 
-// Sensor configuration
+//////////////////////////////////////////////////////////////////
+//////// VALUES BELOW ARE DEPENDENT ON INDIVIDUAL SENSOR ////////
 const int SOIL_MAXWET = 2640;
 const int SOIL_MAXDRY = 3260;
 
@@ -38,6 +42,8 @@ const int SERVO_CLOSE_ANGLE = 0;
 const unsigned long SERVO_OPEN_TIME = 1500;
 const unsigned long SERVO_CLOSE_TIME = 3600000UL * 4;  // CHANGE INTEGER FOR HOURS CLOSED e.g. 3600000UL*5 = 5 hours
 
+///////////////////////////////////////////////////////////////////
+//////// DATA POINTS LOGGED BETWEEN TIME OF AVG_DELAY ////////////
 const int DATA_POINTS = 20;
 const int AVG_DELAY = 20;
 
