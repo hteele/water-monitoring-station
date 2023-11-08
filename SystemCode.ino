@@ -67,6 +67,16 @@ void loop() {
 
   unsigned long currentMillis = millis();
 
+  /*
+  
+  Below is a non-blocking delay technique. This allows the system to keep track of elapsed time, delay the water dispensing,
+  and remain connected to MQTT/WiFi
+
+  If the current time - last time the servo was activated is >= the designated open/close time, then it will execute the logic.
+
+  SERVO_CLOSE_TIME must be significantly larger than SERVO_OPEN_TIME
+  
+  */
   if(isClosed && (currentMillis - previousMillis >= SERVO_OPEN_TIME)){ 
     myservo.attach(SERVO_PIN, 1000, 2000); // attaches the servo on pin 18 to the servo object
     myservo.write(SERVO_OPEN_ANGLE);
@@ -83,7 +93,13 @@ void loop() {
     myservo.detach();
     previousMillis = currentMillis;
    }  
-      
+
+  ////////////////////////////////////////////////////////////////////////////////
+  ///// PRINTS DATA TO SERIAL MONITOR FOR DEBUGGING AND REVIEWING PURPOSES //////
+
+  /*
+  Note: Data-averaging techniques are only used for temp, humidity, and photocell --> NOT soil humidity
+  */
   float temperature = tempAvg(DATA_POINTS, AVG_DELAY);
   float humidity = humAvg(DATA_POINTS, AVG_DELAY);
   Serial.print("Temperature: ");
@@ -102,8 +118,13 @@ void loop() {
   Serial.print(soilPercent);
   Serial.println(" %");
 
-  /*Must match the PAYLOAD structure ex) PAYLOAD = SECTION +"/" + STATION_NUMBER + "var_name";
-  /"var_name" can be temp / hum / soil_hum / photocell/temperature*/
+  /*
+  Below are definitions for each topic.
+  
+  Must match the PAYLOAD structure ex) PAYLOAD = SECTION +"/" + STATION_NUMBER + "var_name";
+  /"var_name" can be temp / hum / soil_hum / photocell/temperature
+  
+  */
   char pubString1[8];
   dtostrf(temperature, 1, 2, pubString1);
   String tempTopic = YEAR + "/" + SECTION + "/" + STATION_NUMBER + "/" + "temp";
